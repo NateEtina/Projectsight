@@ -1,0 +1,183 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    *{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    ._icons{
+        width: 1rem;
+        height: 1rem;
+        border-radius: 100%;
+        background-color: rgb(90, 90, 103);
+        padding: 5px;
+    }
+    .__icons{
+        width: .7rem;
+        height: .7rem;
+        border-radius: 100%;
+        background-color: rgb(90, 90, 103);
+        margin: 0px 2px; padding: 5px;
+    }
+    .icons3{
+        width: 1rem;
+        height: 1rem;
+        margin: 0px 0px; padding: 3px;
+    }
+
+
+
+    .frame1 header p{
+        margin: 0.5em 1em;padding: 0.5em 1em;
+    }
+
+    .frame1 article .box-container{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .frame1 article .project-box .heading{
+        background-color: rgb(42, 42, 73);
+        border-radius: 5px;
+        color: white;
+        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: .9rem;
+        margin: .5rem 0rem;padding: .6em;
+        text-transform: capitalize;
+        width: fit-content;
+    }
+    .frame1 article .project-box .subheading{
+        color: rgb(42, 42, 73);
+        font-size: .8rem;
+        font-weight: bold;
+        margin: .5rem 0rem;padding: 0em;
+    } 
+    .frame1 .project-box .infos-side{
+        display:flex;
+    }
+    .frame1 .project-box .infos-side p{
+        color: rgb(90, 90, 103);
+        font-size: .7rem;
+        font-weight: bold;
+        margin: .5rem .2rem;padding: 0em;
+    }
+
+    .frame2{
+        border-left: 2px solid rgba(0, 0, 0, 0.2);
+        height: 100vh;
+    }
+    .frame2 .side-heading{
+        color: rgb(42, 42, 73);
+        font-size: 1.2em;
+        font-weight: bolder;
+        text-transform: capitalize;
+    }
+    .frame1, .frame2, .frame3{
+        padding: 1em;
+    }
+    .frame1{
+        width: 75%;
+    }
+    .frame2{
+        width: 15%;
+    }
+
+    .frame3{
+        border-right: 2px solid rgba(0, 0, 0, 0.2);
+        height: 100vh;
+    }
+    header{
+        border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin: 0;padding: 10px 100px;
+    }
+    header .cross-side{
+        display: flex;
+        justify-content: space-around;
+    }
+    header p{
+        margin:  0px 10px; padding: 5px;
+    }
+    header .profil-img{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    section{
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        margin: 0;padding: 10px 10px;
+    }
+    .frame1 article .project-box{
+        background-color: rgba(0, 0, 0, 0.3);
+        box-shadow: 2px 2px 5px rgba(90, 90, 90, 0.8);
+        border-radius: 2px;
+        margin: .4em;padding: .4em;
+        width: 13em;
+        height: auto;
+    }
+</style>
+<body>
+    <header>
+        <div class="title-side">
+            <a href="{% url 'home' %}">project sight TM</a>
+        </div>
+        <div class="cross-side">
+            <p class="profil-img">P</p>
+            <p>{{user.username}}</p>
+            <p>settings</p>
+            <p><a href="{% url 'logout' %}">Logout</a></p>
+        </div>
+    </header>
+
+    <section>
+        <div class="frame1">
+            <article>
+                <div class="box-container">
+                    {% for p in projects_details %}
+                    <div class='project-box'>
+                        <a href="{% url 'project-frame' p.0.id %}">
+                            <p class="heading">{{p.0.name}}</p>
+                            <p class="subheading">{{p.0.description|truncatechars:60}}</p>
+                        </a>
+                        <div class="infos-side">
+                            <p>{{p.0.created}}</p>
+                            <p>{{p.1}} tasks</p>
+                        </div>
+                        <div class="_buttons">
+                            <a href="{% url 'project-frame' p.0.id %}">
+                                <img src="{% static 'images/icons/pen.png' %}" alt="" class='_icons'>
+                            </a>
+                            <a href="{% url 'delete-project' p.0.id %}">
+                                <img src="{% static 'images/icons/delete_out.png' %}" alt="" class='_icons'>
+                            </a>    
+                        </div>  
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'add-project' %}">
+                    <img src="{% static 'images/icons/add.png' %}" alt="" class='_icons'>
+                </a> 
+            </article>     
+        </div>
+        <div class="frame2">
+            <article>
+                <p class="side-heading">projects progression</p>
+                <p>{{n_project}} projects</p>
+                <p>{{n_task}} accomplished tasks on {{n_task}}</p>
+            </article>
+        </div>
+    </section>
+
+</body>
+{% endblock content %}

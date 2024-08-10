@@ -1,0 +1,161 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .back-toprow{
+        margin: 0rem 0.5rem;
+        padding: 0.3rem;
+    }
+    .back-toprow a ._icons{
+        background-color: rgba(42, 42, 73, 1);
+        border-radius: 50px;
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+    }
+
+    .workframe{
+        border-top: 3px solid rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: start;
+        height: 100vh;
+    }
+    .workframe .icons{
+        background-color: rgb(42, 42, 73);
+        border-radius: 50px;
+        width: 15px;
+        height: 15px;
+        padding: 5px;
+    }
+        /* workframe class elements details*/
+    .workframe .desc-frame{
+        border-right: 2px solid rgba(0, 0, 0, 0.2);
+        flex-basis: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding: .5rem;
+    }
+    .desc-frame .box1{
+        border-left: 3px solid rgba(255, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        padding: .5rem;
+        width: fit-content;
+    }
+    .desc-frame .box1 span{
+        color: rgb(42, 42, 73);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0.5rem;
+    }
+
+    .desc-frame .box2{
+        margin-top: 5px;
+        width: 100%;
+    }
+    .desc-frame .box2 div{
+        padding: 1rem;
+        font-size: 13px;
+        font-weight: bold;
+        font-family: 'Lucida Sans Unicode', Arial, sans-serif;
+        text-align: justify;
+    }
+    .desc-frame .box3{
+        margin-top: 5px;
+        padding: .5rem;
+    }
+
+    .workframe .grow-frame{
+        flex-basis: 35%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding: 4rem .5rem;
+    }
+
+    .workframe .task-frame{
+        border-left: 2px solid rgba(0, 0, 0, 0.2);
+        flex-basis: 30%;
+    }
+
+
+</style>
+
+<body>
+    <div class="back-toprow">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/icons/arrow_back.png' %}" alt="" class='_icons'>
+        </a>
+    </div>
+    
+    <section class="workframe">
+        <div class="desc-frame">
+            <div class="box1">
+                <span>{{project.name}}</span>
+                <a href="{% url 'update-project' project.id %}">
+                    <img src="{% static 'images/icons/pen.png' %}" alt="" class='icons'>
+                </a>
+            </div>
+            <div class="box2">  
+                <div>{{project.description}}</div>
+            </div>
+            <div class="box3">
+                <p>Creation date : {{project.created}}</p>   
+                <p>Deadline : {{project.deadline}}</p>
+            </div>
+            <div>
+                Manager : Young Boy NBA
+            </div>
+
+        </div>
+
+        <div class="grow-frame"> 
+            <p>TASK</p>
+            <p>ALL : {{task_count}} tasks</p>
+            <p>TO DO : </p>
+            <p>COMPLETED : </p>
+            <p>progression : 100%</p> 
+            <p>Accoplished task : 2 tasks for 2</p>
+        </div>
+
+        <div class="task-frame">
+            Tasks list
+            {% for item in unachievedTasks %}
+                <div class="taskbox">
+                    <span class="taskbody">{{item.body}}</span>
+                    <div class="under-row">
+                        <img src="{% static 'images/icons/hourglass.png' %}" alt="" class='icons3'><span>{{item.executiontime}} H</span>
+                        <a href="{% url 'update-task' item.id %}">
+                            <img src="{% static 'images/icons/pen.png' %}" alt="" class='__icons'>
+                        </a>
+                        <a href="{% url 'check-task' item.id %}">
+                            <img src="{% static 'images/icons/check.png' %}" alt="" class='__icons'>
+                        </a>
+                        <a href="{% url 'delete-task' item.id %}">
+                            <img src="{% static 'images/icons/delete_out.png' %}" alt="" class='__icons'>
+                        </a>
+                    </div>
+                </div> 
+            {% endfor %}
+    
+            <div>
+                <!-- form to add a new task -->
+                <a href="{% url 'add-task' project.id %}">add task</a>
+            </div>
+    
+            <div>
+                Achieved tasks
+                {% for item in achievedTasks %}
+                {{item.body}}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</body>
+{% endblock content %}
+
